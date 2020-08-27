@@ -1,6 +1,6 @@
 import {Ripple} from './ripple.js';
-import {Dot} from './Dot.js';
-import {collide, getBWValue} from "./utils.js";
+import {Dot} from './dot.js';
+import {collide} from "./utils.js";
 
 class App {
   constructor() {
@@ -18,8 +18,8 @@ class App {
     window.addEventListener('resize', this.resize.bind(this), false);
     this.resize();
 
-    this.radius = 16;
-    this.pixelSize = 16;
+    this.radius = 10;
+    this.pixelSize = 30;
     this.dots = [];
 
     this.isLoaded = false;
@@ -31,7 +31,7 @@ class App {
     };
 
     this.image = new Image();
-    this.image.src = 'profile.jpg';
+    this.image.src = 'cafe.jpeg';
     this.image.onload = () => {
       this.isLoaded = true;
       this.drawImage();
@@ -84,6 +84,14 @@ class App {
       );
     }
 
+    this.ctx.drawImage(
+      this.image,
+      0, 0,
+      this.image.width, this.image.height,
+      this.imgPos.x, this.imgPos.y,
+      this.imgPos.width, this.imgPos.height,
+    );
+
     this.tmpCtx.drawImage(
       this.image,
       0, 0,
@@ -115,26 +123,21 @@ class App {
         const red = this.imgData.data[pixelIndex + 0];
         const green = this.imgData.data[pixelIndex + 1];
         const blue = this.imgData.data[pixelIndex + 2];
-        const scale = getBWValue(red, green, blue, false);
 
         const dot = new Dot(
           x, y,
           this.radius,
           this.pixelSize,
           red, green, blue,
-          scale
         );
 
-        if (dot.targetRadius > 0.1) {
-          this.dots.push(dot);
-        }
+        this.dots.push(dot);
       }
     }
   }
 
   animate() {
     window.requestAnimationFrame(this.animate.bind(this));
-    this.ctx.clearRect(0, 0, this.stageWidth, this.stageHeight);
 
     this.ripple.animate();
 
@@ -156,7 +159,16 @@ class App {
 
     for (let i = 0; i < this.dots.length; i++) {
       this.dots[i].reset();
+
     }
+
+    this.ctx.drawImage(
+      this.image,
+      0, 0,
+      this.image.width, this.image.height,
+      this.imgPos.x, this.imgPos.y,
+      this.imgPos.width, this.imgPos.height,
+    );
 
     this.ripple.start(e.offsetX, e.offsetY)
   }

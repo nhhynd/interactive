@@ -1,5 +1,5 @@
 import {Hill} from './hill.js';
-import {Sun} from './Sun.js';
+import {Sun} from './sun.js';
 import {WalkController} from './walkController.js';
 
 class App {
