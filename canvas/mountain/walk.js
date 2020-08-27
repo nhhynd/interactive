@@ -1,23 +1,23 @@
-export class Apeach {
+export class Walk {
   constructor(img, stageWidth) {
     this.img = img;
 
-    this.totalFrame = 16;
+    this.totalFrame = this.img.frame;
     this.curFrame = 0;
 
-    this.imgWidth = 495;
-    this.imgHeight = 420;
+    this.imgWidth = this.img.width;
+    this.imgHeight = this.img.height;
 
-    this.apeachWidth = 247;
-    this.apeachHeight = 210;
+    this.walkWidth = this.imgWidth / 2;
+    this.walkHeight = this.imgHeight / 2;
 
-    this.apeachWidthHalf = this.apeachWidth /  2;
-    this.x = stageWidth + this.apeachWidth;
+    this.walkWidthHalf = this.walkWidth /  2;
+    this.x = stageWidth + this.walkWidth;
     this.y = 0;
-    this.speed = Math.random() * 2 + 1;
+    this.speed = this.img.speed;
 
-    this.fps = 16;
-    this.fpsTime = 1000 / this.fps;
+    this.fps = 25;
+    this.fpsTime = 4000 / this.fps / (this.speed);
   }
 
   draw(ctx, t, dots) {
@@ -48,15 +48,15 @@ export class Apeach {
     ctx.translate(this.x, this.y);
     ctx.rotate(closest.rotation);
     ctx.drawImage(
-        this.img,
+        this.img.image,
         this.imgWidth * this.curFrame,
         0,
         this.imgWidth,
         this.imgHeight,
-        -this.apeachWidthHalf,
-        -this.apeachHeight + 40,
-        this.apeachWidth,
-        this.apeachHeight
+        -this.walkWidthHalf,
+        -this.walkHeight + this.img.padding,
+        this.walkWidth,
+        this.walkHeight
     );
     ctx.restore();
   }

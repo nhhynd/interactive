@@ -1,4 +1,5 @@
 import {Hill} from './hill.js';
+import {Sun} from './Sun.js';
 import {WalkController} from './walkController.js';
 
 class App {
@@ -10,10 +11,11 @@ class App {
     document.body.appendChild(this.canvas);
 
     this.hills = [
-        new Hill('#fd6bea', 0.2, 12),
-        new Hill('#ff59c2', 0.5, 8),
-        new Hill('#ff4674', 1.4, 6),
+        new Hill('#ff7200', 0.2, 12),
+        new Hill('#ff9c00', 0.5, 8),
+        new Hill('#ffcd00', 1.4, 6),
     ];
+    this.sun = new Sun();
 
     this.walkController = new WalkController();
 
@@ -36,6 +38,7 @@ class App {
     }
 
     this.walkController.resize(this.stageWidth, this.stageHeight);
+    this.sun.resize(this.stageWidth, this.stageHeight);
   }
 
   animate(t) {
@@ -43,8 +46,9 @@ class App {
 
     this.ctx.clearRect(0, 0, this.stageWidth, this.stageHeight);
 
-    let dots;
+    this.sun.draw(this.ctx, t);
 
+    let dots;
     for (let i = 0; i < this.hills.length; i++) {
       dots = this.hills[i].draw(this.ctx);
     }
